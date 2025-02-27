@@ -25,7 +25,6 @@ nutri_response = requests.post(nutri_endpoint, headers=nutri_headers, json=nutri
 nutri_response.raise_for_status()
 data = nutri_response.json()["exercises"]
 
-sheety_endpoint = 'https://api.sheety.co/e6ed77249101a376e125685dc5e4bfcd/myWorkouts/workouts'
 sheety_headers = {
     'Authorization': SHEETY_API_KEY,
     'Content-Type': 'application/json',
@@ -43,5 +42,5 @@ for exercise in data:
         }
     }
 
-    sheet_response = requests.post(url=sheety_endpoint, json=sheety_inputs, headers=sheety_headers)
+    sheet_response = requests.post(url=SHEETY_ENDPOINT, json=sheety_inputs, headers=sheety_headers)
     sheet_response.raise_for_status()
