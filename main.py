@@ -15,7 +15,7 @@ nutri_headers = {
     'x-app-key': NUTRI_API_KEY
 }
 nutri_params = {
-    "query": 'user_input',
+    "query": user_input,
     'weight_kg': 74,
     'height_cm': 174,
     'age': 26,
@@ -23,23 +23,25 @@ nutri_params = {
 
 nutri_response = requests.post(nutri_endpoint, headers=nutri_headers, json=nutri_params)
 nutri_response.raise_for_status()
-data = nutri_response.json()
-print(data)
+data = nutri_response.json()["exercises"]
 
 sheety_endpoint = 'https://api.sheety.co/e6ed77249101a376e125685dc5e4bfcd/myWorkouts/workouts'
 sheety_headers = {
     'Authorization': SHEETY_API_KEY,
     'Content-Type': 'application/json',
 }
-sheety_inputs = {
+
+for exercise in data:
+
+    sheety_inputs = {
         "workout": {
             "date": today_date,
             "time": today_time,
-            "exercise": exercis,
+            "exercise": exercise['name'],
             "duration": exercise["duration_min"],
             "calories": exercise["nf_calories"]
         }
     }
 
-sheet_response = requests.post(url=sheety_endpoint, json=sheety_inputs, headers=sheety_headers)
-sheet_response.raise_for_status()
+    sheet_response = requests.post(url=sheety_endpoint, json=sheety_inputs, headers=sheety_headers)
+    sheet_response.raise_for_status()
